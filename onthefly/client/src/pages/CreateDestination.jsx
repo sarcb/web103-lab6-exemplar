@@ -1,10 +1,8 @@
 import { useState } from 'react'
-import { useParams } from 'react-router-dom'
 import '../css/CreateDestination.css'
 
 const CreateDestination = () => {
 
-    const { trip_id } = useParams()
     const [destination, setDestination] = useState({
         destination: '',
         description: '',
@@ -25,39 +23,19 @@ const CreateDestination = () => {
         })
     }
     
-    const createDestination = async (event) => {        
+    const createDestination = async (event) => {
         event.preventDefault()
 
-        const addDestination = async () => {
-            const options = {
-                method: 'POST',
-                headers: {
-                    'Content-Type': 'application/json'
-                },
-                body: JSON.stringify(destination)
-            }
-        
-            const response = await fetch('/api/destinations', options)
-            const data = await response.json()
-            setDestination(data)
-            return data.id
+        const options = {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json'
+            },
+            body: JSON.stringify(destination)
         }
 
-        const createTripDestination = async (destination_id) => {
-            const options = {
-                method: 'POST',
-                headers: {
-                    'Content-Type': 'application/json'
-                },
-                body: JSON.stringify({trip_id: trip_id, destination_id: destination_id})
-            }
-        
-            const response = await fetch('/api/trips-destinations', options)
-            const data = await response.json()
-            return data
-        }
-
-        addDestination().then(res => createTripDestination(res)).then(res => window.location = '/')
+        await fetch('/api/destinations', options)
+        window.location = '/destinations'
     }
 
     return (
@@ -86,10 +64,6 @@ const CreateDestination = () => {
 
             <label>Flag Image URL</label><br />
             <input type='text' id='flag_img_url' name='flag_img_url' value={destination.flag_img_url} onChange={handleChange}/><br />
-            <br/>
-
-            <label>Trip ID</label><br />
-            <input type='text' id='trip_id' name='trip_id' value={trip_id} readOnly/><br />
             <br/>
 
             <input type='submit' value='Submit' onClick={createDestination} />
