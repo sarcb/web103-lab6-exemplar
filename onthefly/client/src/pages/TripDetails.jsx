@@ -98,8 +98,6 @@ const TripDetails = ( { data } ) => {
                             />
                         ) : ''
                     }
-                    <br/>
-                    <Link to={'../../destination/new/' + id}><button className='addDestinationBtn'>+ Add Destination</button></Link>
                 </div>
             </div>
             
